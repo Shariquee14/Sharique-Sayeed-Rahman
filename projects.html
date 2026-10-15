@@ -211,16 +211,6 @@
             display: none;
         }
 
-        .custom-cursor.white-cursor {
-            background-color: #ffffff !important;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
-        }
-
-        .custom-cursor-follower.white-cursor {
-            border-color: rgba(255, 255, 255, 0.9) !important;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
         .custom-cursor.hover {
             width: 12px;
             height: 12px;
@@ -407,57 +397,12 @@
             let mouseY = window.innerHeight / 2;
             let followerX = mouseX;
             let followerY = mouseY;
-
-            function parseRgb(colorStr) {
-                if (!colorStr) return null;
-                const match = colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-                if (match) {
-                    return { r: parseInt(match[1]), g: parseInt(match[2]), b: parseInt(match[3]) };
-                }
-                return null;
-            }
-
-            function isOrangeOrRed(r, g, b) {
-                return (r > 70 && r > b * 1.4 && r > g * 0.85);
-            }
-
-            function checkColorUnderCursor(e) {
-                let isWhiteTarget = false;
-                let el = e.target;
-                while (el && el !== document.body && el !== document.documentElement) {
-                    if (el.matches && el.matches('.red-dot, .num, .project-arrow, [style*="primary-red"], [style*="#c91723"]')) {
-                        isWhiteTarget = true;
-                        break;
-                    }
-                    const style = window.getComputedStyle(el);
-                    const fg = parseRgb(style.color);
-                    const bg = parseRgb(style.backgroundColor);
-                    if (fg && isOrangeOrRed(fg.r, fg.g, fg.b)) {
-                        isWhiteTarget = true;
-                        break;
-                    }
-                    if (bg && bg.r > 30 && isOrangeOrRed(bg.r, bg.g, bg.b)) {
-                        isWhiteTarget = true;
-                        break;
-                    }
-                    el = el.parentElement;
-                }
-
-                if (isWhiteTarget) {
-                    cursor.classList.add('white-cursor');
-                    cursorFollower.classList.add('white-cursor');
-                } else {
-                    cursor.classList.remove('white-cursor');
-                    cursorFollower.classList.remove('white-cursor');
-                }
-            }
             
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
                 cursor.style.left = mouseX + 'px';
                 cursor.style.top = mouseY + 'px';
-                checkColorUnderCursor(e);
             });
             
             function animateFollower() {
