@@ -701,6 +701,16 @@
             display: none;
         }
 
+        .custom-cursor.white-cursor {
+            background-color: #ffffff !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        }
+
+        .custom-cursor-follower.white-cursor {
+            border-color: rgba(255, 255, 255, 0.9) !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .custom-cursor.hover {
             width: 12px;
             height: 12px;
@@ -1281,8 +1291,10 @@
     <div class="custom-cursor"></div>
     <div class="custom-cursor-follower"></div>
 
-    <!-- Script Block -->
     <script>
+        const canvas = document.getElementById('scroll-canvas');
+        const context = canvas ? canvas.getContext('2d', { willReadFrequently: true }) : null;
+
         // Custom Cursor Logic
         const cursor = document.querySelector('.custom-cursor');
         const cursorFollower = document.querySelector('.custom-cursor-follower');
@@ -1292,12 +1304,70 @@
             let mouseY = window.innerHeight / 2;
             let followerX = mouseX;
             let followerY = mouseY;
+
+            function parseRgb(colorStr) {
+                if (!colorStr) return null;
+                const match = colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+                if (match) {
+                    return { r: parseInt(match[1]), g: parseInt(match[2]), b: parseInt(match[3]) };
+                }
+                return null;
+            }
+
+            function isOrangeOrRed(r, g, b) {
+                // Matches orange and red tones (high red, distinct from blue/green)
+                return (r > 70 && r > b * 1.4 && r > g * 0.85);
+            }
+
+            function checkColorUnderCursor(e) {
+                let isWhiteTarget = false;
+
+                // 1. Check target DOM element and its ancestors
+                let el = e.target;
+                while (el && el !== document.body && el !== document.documentElement) {
+                    if (el.matches && el.matches('.hero-bg-text, .quote-box, .form-submit, .red-dot, .num, .block-title, .edu-item span, .contact-icon, .stat-item h2, .project-arrow')) {
+                        isWhiteTarget = true;
+                        break;
+                    }
+                    const style = window.getComputedStyle(el);
+                    const fg = parseRgb(style.color);
+                    const bg = parseRgb(style.backgroundColor);
+                    if (fg && isOrangeOrRed(fg.r, fg.g, fg.b)) {
+                        isWhiteTarget = true;
+                        break;
+                    }
+                    if (bg && bg.r > 30 && isOrangeOrRed(bg.r, bg.g, bg.b)) {
+                        isWhiteTarget = true;
+                        break;
+                    }
+                    el = el.parentElement;
+                }
+
+                // 2. Check underlying video canvas pixel
+                if (!isWhiteTarget && canvas && context) {
+                    try {
+                        const pixel = context.getImageData(e.clientX, e.clientY, 1, 1).data;
+                        if (pixel && pixel[3] > 0 && isOrangeOrRed(pixel[0], pixel[1], pixel[2])) {
+                            isWhiteTarget = true;
+                        }
+                    } catch (err) {}
+                }
+
+                if (isWhiteTarget) {
+                    cursor.classList.add('white-cursor');
+                    cursorFollower.classList.add('white-cursor');
+                } else {
+                    cursor.classList.remove('white-cursor');
+                    cursorFollower.classList.remove('white-cursor');
+                }
+            }
             
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
                 cursor.style.left = mouseX + 'px';
                 cursor.style.top = mouseY + 'px';
+                checkColorUnderCursor(e);
             });
             
             function animateFollower() {
@@ -1386,8 +1456,7 @@
             }
         }
 
-        const canvas = document.getElementById('scroll-canvas');
-        const context = canvas.getContext('2d');
+
 
         const frameCount = 240;
         const currentFrame = index => (
