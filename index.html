@@ -398,6 +398,13 @@
             box-shadow: 0 5px 15px rgba(201, 23, 35, 0.35);
         }
 
+        .achievements-quote-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
         /* Work Process */
         .process-list {
             display: flex;
@@ -718,6 +725,269 @@
             color: var(--primary-red);
         }
 
+        /* ==========================================================
+           RESPONSIVE DESIGN (PC, TABLET, MOBILE)
+           ========================================================== */
+
+        @media (pointer: coarse), (hover: none) {
+            .custom-cursor, .custom-cursor-follower {
+                display: none !important;
+            }
+        }
+
+        /* Large Tablets & Small Desktops <= 1200px */
+        @media (max-width: 1200px) {
+            .hero-bg-text {
+                font-size: 26vw;
+            }
+            .hero-left h1 {
+                font-size: 5rem;
+            }
+            .hero-right {
+                margin-top: 30vh;
+            }
+            .projects-grid {
+                gap: 20px;
+            }
+            .two-column-section {
+                gap: 40px;
+            }
+            .achievements-quote-grid {
+                gap: 25px;
+            }
+        }
+
+        /* Tablets <= 992px */
+        @media (max-width: 992px) {
+            .content {
+                padding: 0 30px;
+            }
+            .hero {
+                min-height: auto;
+                padding-bottom: 70px;
+            }
+            .hero-bg-text {
+                font-size: 25vw;
+                top: 8%;
+            }
+            .hero-content {
+                margin-top: 14vh;
+                gap: 20px;
+            }
+            .hero-left h1 {
+                font-size: 4.2rem;
+            }
+            .hero-right {
+                margin-top: 22vh;
+                gap: 35px;
+            }
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            .two-column-section {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                padding: 60px 0;
+            }
+            .achievements-quote-grid {
+                grid-template-columns: 1.5fr 1fr;
+                gap: 30px;
+            }
+            .footer {
+                padding: 70px 25px;
+                gap: 40px;
+            }
+            .footer-left h2 {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* Mobile Devices & Small Tablets <= 768px */
+        @media (max-width: 768px) {
+            .content {
+                padding: 0 20px;
+            }
+            .top-nav {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+                padding: 20px 0;
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+            .hero {
+                min-height: auto;
+                padding-bottom: 50px;
+            }
+            .hero-bg-text {
+                font-size: 27vw;
+                top: 30px;
+                opacity: 0.45;
+                letter-spacing: -2px;
+                pointer-events: none;
+                user-select: none;
+            }
+            .hero-content {
+                grid-template-columns: 1fr;
+                margin-top: 40px;
+                gap: 35px;
+            }
+            .hero-left h3 {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+            .hero-left h1 {
+                font-size: clamp(3rem, 13vw, 4.5rem);
+                line-height: 0.95;
+                margin-bottom: 16px;
+                word-break: break-word;
+            }
+            .hero-left h4 {
+                font-size: 0.9rem;
+                line-height: 1.4;
+                margin-bottom: 16px;
+            }
+            .hero-left p {
+                font-size: 0.9rem;
+                max-width: 100%;
+                margin-bottom: 24px;
+                line-height: 1.6;
+            }
+            .hero-right {
+                margin-top: 10px;
+                align-items: flex-start;
+                text-align: left;
+                gap: 30px;
+                width: 100%;
+            }
+            .hero-right .quote {
+                max-width: 100%;
+                padding-left: 28px;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            .hero-right .quote::before {
+                left: 0;
+                top: 0;
+            }
+            .stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 20px 30px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .stat-item {
+                justify-content: flex-start;
+                gap: 12px;
+            }
+            .stat-item h2 {
+                font-size: 2.5rem;
+            }
+            .stat-item p {
+                font-size: 0.7rem;
+                max-width: none;
+                text-align: left;
+            }
+            .projects-section {
+                padding: 50px 0;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 30px;
+            }
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .project-img {
+                height: 220px;
+            }
+            .two-column-section {
+                padding: 50px 0;
+                gap: 40px;
+            }
+            .achievements-quote-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+                margin-top: 30px;
+            }
+            .quote-box {
+                margin-top: 10px;
+                padding: 30px 25px;
+            }
+            .quote-box h3 {
+                font-size: 1.3rem;
+            }
+            .quote-box::before {
+                font-size: 3rem;
+                top: 15px;
+                left: 15px;
+            }
+            .skills-grid {
+                gap: 8px;
+            }
+            .skill-tag {
+                padding: 7px 14px;
+                font-size: 0.72rem;
+            }
+            .footer {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 50px 20px;
+            }
+            .footer-left h2 {
+                font-size: 3rem;
+                margin-bottom: 20px;
+            }
+            .footer-left p {
+                max-width: 100%;
+                margin-bottom: 35px;
+                font-size: 0.9rem;
+            }
+            .contact-list {
+                gap: 16px;
+            }
+            .contact-item {
+                font-size: 0.85rem;
+                word-break: break-word;
+            }
+            .modal-content {
+                padding: 30px 20px;
+                width: 92%;
+                max-height: 88vh;
+                overflow-y: auto;
+            }
+            .modal-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Small Phones <= 480px */
+        @media (max-width: 480px) {
+            .hero-left h1 {
+                font-size: clamp(2.6rem, 13vw, 3.4rem);
+            }
+            .hero-left h3 {
+                font-size: 1.3rem;
+            }
+            .footer-left h2 {
+                font-size: 2.3rem;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 18px;
+            }
+            .project-img {
+                height: 190px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -888,7 +1158,7 @@
                     <h2>SPORTS & ACHIEVEMENTS</h2>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-top: 40px;">
+                <div class="achievements-quote-grid">
                     <div class="process-list">
                         <div class="process-item">
                             <div class="process-num">01</div>
@@ -1164,19 +1434,22 @@
         let targetFrameIndex = 0;
 
         window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop;
+            const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
             const maxScrollTop = document.documentElement.scrollHeight - window.innerHeight;
             
             if (maxScrollTop > 0) {
                 const scrollFraction = scrollTop / maxScrollTop;
                 targetFrameIndex = Math.min(
                     frameCount - 1,
-                    Math.floor(scrollFraction * frameCount)
+                    Math.max(0, Math.floor(scrollFraction * frameCount))
                 );
             }
-        });
+        }, { passive: true });
 
         window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(resizeCanvas, 100);
+        });
 
         function smoothScroll() {
             // Lerp formula
