@@ -29,6 +29,7 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         /* --- BACKGROUND CANVAS --- */
@@ -38,6 +39,9 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
+            /* Oversize slightly to cover URL bar resize gap on mobile */
+            min-height: -webkit-fill-available;
             z-index: -2;
             display: flex;
             justify-content: center;
@@ -55,6 +59,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
+            min-height: -webkit-fill-available;
             background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
             z-index: -1;
         }
@@ -805,6 +811,15 @@
 
         /* Mobile Devices & Small Tablets <= 768px */
         @media (max-width: 768px) {
+            /* Fix mobile scrolling flicker: oversize fixed backgrounds
+               to cover the gap when Android Chrome URL bar hides/shows */
+            #canvas-container,
+            .bg-overlay {
+                height: 120vh;
+                height: 120dvh;
+                /* Prevent overscroll bounce from showing black */
+                top: -10vh;
+            }
             .content {
                 padding: 0 20px;
             }
@@ -1416,6 +1431,19 @@
             renderImage(Math.round(currentFrameIndex));
         }
 
+        // Track last known width to ignore mobile URL bar height changes
+        let lastCanvasWidth = window.innerWidth;
+
+        function resizeCanvasIfNeeded() {
+            const currentWidth = window.innerWidth;
+            // Only resize when width actually changes (orientation / real resize).
+            // Ignore height-only changes caused by mobile browser URL bar hide/show.
+            if (currentWidth !== lastCanvasWidth) {
+                lastCanvasWidth = currentWidth;
+                resizeCanvas();
+            }
+        }
+
         function renderImage(index) {
             if (images[index] && images[index].complete) {
                 const img = images[index];
@@ -1446,9 +1474,9 @@
             }
         }, { passive: true });
 
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', resizeCanvasIfNeeded);
         window.addEventListener('orientationchange', () => {
-            setTimeout(resizeCanvas, 100);
+            setTimeout(resizeCanvas, 200);
         });
 
         function smoothScroll() {
